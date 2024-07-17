@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with GPT-3.5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .response-area, .input-area {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .response-area {
+            height: 300px;
+            resize: none;
+        }
+        .input-area {
+            height: 50px;
+        }
+        .send-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat with GPT-3.5</h1>
+        <textarea id="response-area" class="response-area" readonly></textarea>
+        <input type="text" id="user-input" class="input-area" placeholder="Enter your query here">
+        <button id="send-button" class="send-button">Send</button>
+    </div>
+
+    <script>
+        document.getElementById('send-button').onclick = function(event) {
+            event.preventDefault();
+            const userInput = document.getElementById('user-input').value;
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    'user_input': userInput
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response-area').value = data;
+                document.getElementById('user-input').value = '';  // Clear the input field
+            });
+        };
+    </script>
+</body>
+</html>
