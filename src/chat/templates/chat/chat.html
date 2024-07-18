@@ -36,7 +36,12 @@
 <body>
     <div class="chat-container">
         <h1>Chat with GPT-3.5</h1>
-        <textarea id="response-area" class="response-area" readonly></textarea>
+        <textarea id="response-area" class="response-area" readonly>
+{% for log in chat_logs %}
+{{ log.user_input }}
+{{ log.bot_response }}
+{% endfor %}
+        </textarea>
         <input type="text" id="user-input" class="input-area" placeholder="Enter your query here">
         <button id="send-button" class="send-button">Send</button>
     </div>
@@ -57,7 +62,9 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('response-area').value = data;
+                const now = new Date();
+                const formattedDate = now.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(',', '');
+                document.getElementById('response-area').value += `\nRequested at ${formattedDate} : ${userInput}\nAssistant response at ${formattedDate} : ${data}`;
                 document.getElementById('user-input').value = '';  // Clear the input field
             });
         };
