@@ -9,11 +9,18 @@ git update-index --assume-unchanged .env
 
 *Now to make the bot work you need to change at least OPENAI_API_KEY env var.*
 
+## Run as an application
 
-### To run the chatbot locally use:
+### To run locally use:
 
 ```
 python manage.py runserver
+```
+
+## Run as server 
+
+```
+gunicorn --workers 3 messenger.wsgi:application
 ```
 
 
@@ -27,3 +34,4 @@ docker-compose up --build
 ```
 http://<your_localhost>/chat/
 ```
+
